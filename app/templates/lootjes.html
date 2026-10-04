@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Lootjes{% endblock %}
+
+{% block content %}
+{% if lootje1 %}
+    {% if rolled == True %}
+        <div class="centered_horizontal" id="lootjes_menu">
+            <h2>Jouw getrokken lootjes:</h2>
+            <div style="margin-bottom: 15px;">
+                Lootje 1 (surprise):<br>
+                <input type="button" value="Laten zien" id="reveal_lootje1_btn" data-name="{{ lootje1 }}"/>
+            </div>
+            <div>
+                Lootje 2 (gedicht):<br>
+                <input type="button" value="Laten zien" id="reveal_lootje2_btn" data-name="{{ lootje2 }}"/>
+            </div>
+        </div>
+        <div class="centered_horizontal hidden" id="single_lootje_view">
+            <h2 id="single_lootje_title">Lootje</h2>
+            <div>
+                <span class="trek_lootje" id="single_lootje_span"></span>
+            </div>
+            <div style="margin-top: 20px;">
+                <input type="button" value="Ga terug" id="back_button"/>
+            </div>
+        </div>
+    {% else %}
+        <div class="centered_horizontal">
+            <h2>Je mag lootjes trekken!</h2>
+            <div class="lootjestrekken">
+                <div class="trek_lootje hidden">
+                    <h3>Lootje 1 (surprise)</h3>
+                    <span id="trek_lootje1_span" data-target="{{ lootje1 }}">Lootje 1</span>
+                </div>
+                <div class="trek_lootje hidden">
+                    <h3>Lootje 2 (gedicht)</h3>
+                    <span id="trek_lootje2_span" data-target="{{ lootje2 }}">Lootje 2</span>
+                </div>
+            </div>
+            <div>
+                <input type="button" value="Trek lootje 1" id="trek_lootje1_button"/>
+                <input type="button" value="Trek lootje 2" id="trek_lootje2_button"/>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="centered_horizontal">
+        <h3>Je mag nog geen lootjes trekken.</h3>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,587 @@
+/* ==========================================================
+   Leuke Lootjes - Sinterklaas thema
+   Fonts (al geladen in base.html): Comic Relief, Lavishly Yours
+   ========================================================== */
+
+:root {
+    --sint-red:      #b3122b;   /* mijter / mantel */
+    --sint-red-dark: #7d0b1d;
+    --sint-red-deep: #4a0610;
+    --gold:          #f0b82d;   /* kruisje, staf, goud */
+    --gold-dark:     #b8860b;
+    --paper:         #fffaf0;   /* cadeaupapier / lootje */
+    --ink:           #3b1a12;   /* pepernoot bruin */
+    --green:         #1f7a4d;   /* pietenmuts-veer / cadeaulint */
+
+    --font-body:    "Comic Relief", "Comic Sans MS", system-ui, sans-serif;
+    --font-script:  "Lavishly Yours", "Brush Script MT", cursive;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+    margin: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--paper);
+
+    /* inpakpapier: rode ondergrond met gouden ruitjes */
+    background-color: var(--sint-red);
+    background-image:
+        linear-gradient(45deg,  rgba(240,184,45,.14) 25%, transparent 25%, transparent 75%, rgba(240,184,45,.14) 75%),
+        linear-gradient(-45deg, rgba(240,184,45,.14) 25%, transparent 25%, transparent 75%, rgba(240,184,45,.14) 75%),
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.12), transparent 60%);
+    background-size: 56px 56px, 56px 56px, 100% 100%;
+    background-attachment: fixed;
+}
+
+/* Zacht vallende sneeuw/strooigoed, het enige bewegende ding */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,.85) 1.5px, transparent 2px),
+        radial-gradient(circle, rgba(255,255,255,.6)  1px,   transparent 1.5px);
+    background-size: 140px 140px, 90px 90px;
+    background-position: 0 0, 40px 60px;
+    animation: strooien 24s linear infinite;
+}
+
+@keyframes strooien {
+    to { background-position: 30px 140px, 10px 150px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before { animation: none; }
+    * { transition: none !important; }
+}
+
+/* Alles boven de sneeuwlaag */
+body > * { position: relative; z-index: 1; }
+
+/* ---------- Typografie ---------- */
+
+h1, h2, h3 {
+    font-family: var(--font-script);
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 .6rem;
+    letter-spacing: .01em;
+}
+h1 { font-size: clamp(3rem, 9vw, 4.8rem); }
+h2 { font-size: clamp(2.4rem, 7vw, 3.4rem); }
+h3 { font-size: clamp(1.8rem, 5vw, 2.4rem); }
+
+p { margin: 0 0 1rem; }
+
+a {
+    color: var(--gold);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+a:hover { color: #fff; }
+
+:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+}
+
+/* ---------- Bovenbalk / navigatie ---------- */
+
+#top_bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#top_bar:has(nav) {
+    background: var(--sint-red-deep);
+    border-bottom: 4px solid var(--gold);
+    box-shadow: 0 4px 14px rgba(0,0,0,.35);
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .25rem .5rem;
+    padding: .6rem 1rem;
+}
+
+nav a {
+    color: var(--paper);
+    text-decoration: none;
+    font-weight: 700;
+    padding: .35rem 1rem;
+    border-radius: 999px;
+    transition: background-color .15s, color .15s;
+}
+nav a:hover {
+    background: var(--gold);
+    color: var(--sint-red-deep);
+}
+
+/* ---------- Layout helpers ---------- */
+
+/* Gecentreerd in de beschikbare ruimte (horizontaal + verticaal) */
+.centered {
+    margin: auto;
+    width: min(92vw, 30rem);
+    padding: 2rem 1.75rem 2rem;
+    text-align: center;
+}
+
+/* Alleen horizontaal gecentreerd, begint bovenaan */
+.centered_horizontal {
+    margin: 2.5rem auto;
+    width: min(92vw, 34rem);
+    padding: 2rem 1.75rem;
+    text-align: center;
+}
+
+/* Cadeaulabel-kaart: papier met gouden rand en gaatje voor het touwtje */
+.centered,
+.centered_horizontal {
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+    border: 4px solid var(--gold);
+    border-radius: 14px;
+    box-shadow:
+        0 0 0 4px var(--sint-red-dark),
+        0 14px 30px rgba(0,0,0,.45);
+}
+
+.centered::before,
+.centered_horizontal::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    border-radius: 50%;
+    background: var(--sint-red);
+    border: 3px solid var(--gold);
+    box-shadow: inset 0 2px 3px rgba(0,0,0,.5);
+}
+
+.centered > h1:first-child,
+.centered > h2:first-child,
+.centered_horizontal > h2:first-child,
+.centered_horizontal > h3:first-child {
+    margin-top: 1.1rem;   /* ruimte voor het touwgaatje */
+}
+
+.centered h1, .centered h2, .centered h3,
+.centered_horizontal h1, .centered_horizontal h2, .centered_horizontal h3 {
+    color: var(--sint-red);
+}
+
+.centered a, .centered_horizontal a { color: var(--sint-red); }
+.centered a:hover, .centered_horizontal a:hover { color: var(--sint-red-dark); }
+
+.hidden { display: none !important; }
+
+/* ---------- Formulieren ---------- */
+
+form { margin: 0; }
+
+label {
+    display: inline-block;
+    margin-bottom: .3rem;
+    font-weight: 700;
+    color: var(--sint-red-dark);
+}
+
+.text_field,
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    max-width: 22rem;
+    padding: .65rem .9rem;
+    font: inherit;
+    color: var(--ink);
+    background: #fff;
+    border: 2px solid var(--gold-dark);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(59,26,18,.12);
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.text_field:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: var(--sint-red);
+    box-shadow: 0 0 0 4px rgba(179,18,43,.25);
+}
+
+.login_form, .login_form_username, .register_form { text-align: center; }
+
+/* ---------- Knoppen ---------- */
+
+input[type="button"],
+input[type="submit"],
+button {
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    padding: .65rem 1.5rem;
+    margin: .25rem;
+    color: var(--sint-red-deep);
+    background: linear-gradient(#ffd25c, var(--gold));
+    border: 2px solid var(--gold-dark);
+    border-radius: 999px;
+    box-shadow: 0 4px 0 var(--gold-dark), 0 8px 14px rgba(0,0,0,.25);
+    transition: transform .08s, box-shadow .08s, filter .15s;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover,
+button:hover { filter: brightness(1.07); }
+
+input[type="button"]:active,
+input[type="submit"]:active,
+button:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--gold-dark), 0 3px 6px rgba(0,0,0,.25);
+}
+
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+button:disabled {
+    cursor: not-allowed;
+    filter: grayscale(.8) opacity(.6);
+}
+
+/* "Terug"-knoppen: rustiger, rood met gouden rand */
+.redirect_button,
+#back_button {
+    color: var(--paper);
+    background: linear-gradient(var(--sint-red), var(--sint-red-dark));
+    border-color: var(--sint-red-deep);
+    box-shadow: 0 4px 0 var(--sint-red-deep), 0 8px 14px rgba(0,0,0,.25);
+}
+.redirect_button:active,
+#back_button:active {
+    box-shadow: 0 1px 0 var(--sint-red-deep), 0 3px 6px rgba(0,0,0,.25);
+}
+
+/* ---------- Lootjes trekken ---------- */
+
+#lootjes_menu > div {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #fff;
+    border: 2px dashed var(--gold-dark);
+    border-radius: 12px;
+}
+
+.lootjestrekken {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.25rem 0;
+}
+
+/* Het getrokken lootje zelf: een opgevouwen briefje */
+div.trek_lootje {
+    padding: 1rem 1.25rem;
+    background: #fff;
+    border: 2px dashed var(--gold-dark);
+    border-radius: 12px;
+    transform: rotate(-1deg);
+}
+div.trek_lootje:nth-child(even) { transform: rotate(1deg); }
+div.trek_lootje h3 { margin-bottom: .25rem; }
+
+div.trek_lootje span {
+    display: inline-block;
+    min-width: 8rem;
+    padding: .3rem 1rem;
+    font-family: var(--font-script);
+    font-size: 2.4rem;
+    line-height: 1.2;
+    color: var(--sint-red);
+}
+
+/* Op de "laat zien"-pagina; overschrijft inline lightgreen */
+span.trek_lootje,
+#single_lootje_span,
+div.trek_lootje span.klaar {
+    display: inline-block;
+    padding: .2rem 1.5rem .4rem;
+    font-family: var(--font-script);
+    font-size: clamp(2.8rem, 10vw, 4rem);
+    line-height: 1.2;
+    color: var(--gold) !important;
+    background: var(--sint-red);
+    border: 3px solid var(--gold);
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0,0,0,.3);
+    text-shadow: 0 2px 0 var(--sint-red-deep);
+    animation: onthul .5s cubic-bezier(.2, 1.4, .4, 1) both;
+}
+
+#single_lootje_view:not(.hidden) #single_lootje_title { color: var(--sint-red); }
+
+@keyframes onthul {
+    from { transform: scale(.6) rotate(-4deg); opacity: 0; }
+    to   { transform: scale(1)  rotate(0);     opacity: 1; }
+}
+
+/* ---------- Berichten: textarea + dropdown ---------- */
+
+textarea {
+    display: block;
+    width: 100%;
+    max-width: 22rem;
+    min-height: 8rem;
+    margin: 0 auto;
+    padding: .65rem .9rem;
+    font: inherit;
+    line-height: 1.5;
+    color: var(--ink);
+    background: #fff;
+    border: 2px solid var(--gold-dark);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(59,26,18,.12);
+    resize: vertical;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+select {
+    width: 100%;
+    max-width: 22rem;
+    padding: .65rem 2.5rem .65rem .9rem;
+    font: inherit;
+    color: var(--ink);
+    cursor: pointer;
+    background-color: #fff;
+    /* eigen pijltje in Sint-rood */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23b3122b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .9rem center;
+    border: 2px solid var(--gold-dark);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(59,26,18,.12);
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--sint-red);
+    box-shadow: 0 0 0 4px rgba(179,18,43,.25);
+}
+
+option {
+    color: var(--ink);
+    background: var(--paper);
+}
+
+/* Wat lucht tussen het tekstvak en het dropdown-label */
+form label + br + select,
+form br + label { margin-top: .4rem; }
+
+/* ---------- Accounts ---------- */
+
+/* Elk account is een cadeautje met een lint over de linkerkant */
+.user_account {
+    position: relative;
+    width: min(92vw, 34rem);
+    margin: .6rem auto;
+    padding: 1rem 1.5rem 1.1rem 3.25rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 3px solid var(--gold);
+    border-radius: 12px;
+    box-shadow:
+        0 0 0 3px var(--sint-red-dark),
+        0 10px 22px rgba(0,0,0,.4);
+    overflow: hidden;
+}
+
+/* Lint: rode strook met gouden middenlijn */
+.user_account::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2.1rem;
+    background:
+        linear-gradient(var(--gold), var(--gold)) center / 4px 100% no-repeat,
+        var(--sint-red);
+    border-right: 3px solid var(--sint-red-dark);
+}
+
+/* Eerste en laatste kaart: wat extra ruimte tot de balken */
+#top_bar + .user_account { margin-top: 2rem; }
+.user_account:has(+ footer) { margin-bottom: 2rem; }
+
+.account_name {
+    display: block;
+    margin-bottom: .2rem;
+    font-family: var(--font-script);
+    font-size: 2.6rem;
+    line-height: 1.15;
+    color: var(--sint-red);
+}
+
+.user_account p { margin: 0; }
+
+.account_lijstje a {
+    display: inline-block;
+    max-width: 100%;
+    padding: .25rem .9rem;
+    overflow: hidden;
+    vertical-align: bottom;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: .95rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--sint-red-deep);
+    background: var(--gold);
+    border: 2px solid var(--gold-dark);
+    border-radius: 999px;
+    transition: background-color .15s, color .15s;
+}
+.account_lijstje a::before { content: "\1F381\00a0"; }
+.account_lijstje a:hover {
+    color: var(--paper);
+    background: var(--sint-red);
+    border-color: var(--sint-red-dark);
+}
+
+/* "Geen lijstje ingesteld" */
+.user_account p:not(.account_lijstje) {
+    font-style: italic;
+    color: rgba(59, 26, 18, .65);
+}
+
+@media (max-width: 480px) {
+    .user_account { padding: .9rem 1rem 1rem 2.9rem; }
+    .user_account::before { width: 1.7rem; }
+    .account_name { font-size: 2.2rem; }
+}
+
+/* ---------- Foutpagina's ---------- */
+
+.error_page { border-color: var(--green); }
+.error_page::before { background: var(--green); }
+.error_page h1 { color: var(--green); }
+
+/* ---------- Footer ---------- */
+
+footer {
+    margin-top: auto;
+    padding: 1rem 1rem 1.25rem;
+    text-align: center;
+    font-size: .9rem;
+    color: var(--paper);
+    background: var(--sint-red-deep);
+    border-top: 4px solid var(--gold);
+}
+.username_text {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+/* ---------- Kleine schermen ---------- */
+
+@media (max-width: 480px) {
+    body { font-size: 1rem; }
+    .centered, .centered_horizontal { padding: 1.5rem 1.1rem; }
+    nav a { padding: .3rem .7rem; }
+}
+
+/* ---------- Reageer ---------- */
+
+.reaction_message {
+    position: relative;
+    margin: 1rem 0 1.5rem;
+    padding: 1rem 1.25rem 1rem 1.5rem;
+    text-align: left;
+    white-space: pre-wrap;       /* behoudt regeleinden van het bericht */
+    overflow-wrap: anywhere;     /* lange woorden breken de kaart niet */
+    color: var(--ink);
+    background: #fff;
+    border: 2px dashed var(--gold-dark);
+    border-left: 8px solid var(--sint-red);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(59, 26, 18, .08);
+}
+
+.reaction_warning {
+    margin: .5rem 0 0;
+    padding: .6rem .9rem;
+    font-size: .9rem;
+    line-height: 1.4;
+    color: var(--sint-red-deep);
+    background: rgba(240, 184, 45, .3);
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+}
+
+/* ---------- Lijstje bewerken ---------- */
+
+input[type="url"] {
+    width: 100%;
+    max-width: 22rem;
+    padding: .65rem .9rem;
+    font: inherit;
+    color: var(--ink);
+    background: #fff;
+    border: 2px solid var(--gold-dark);
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(59,26,18,.12);
+}
+input[type="url"]:focus {
+    outline: none;
+    border-color: var(--sint-red);
+    box-shadow: 0 0 0 4px rgba(179,18,43,.25);
+}
+
+.edit_lijstje { margin-top: .8rem; }
+
+.edit_lijstje summary {
+    display: inline-block;
+    padding: .35rem 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+    color: var(--paper);
+    background: var(--sint-red);
+    border: 2px solid var(--sint-red-dark);
+    border-radius: 999px;
+    transition: filter .15s;
+}
+.edit_lijstje summary::-webkit-details-marker { display: none; }
+.edit_lijstje summary:hover { filter: brightness(1.15); }
+.edit_lijstje[open] summary { margin-bottom: .7rem; }
+
+.edit_lijstje form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
+}
+.edit_lijstje input[type="url"] { flex: 1 1 14rem; }
+.edit_lijstje input[type="submit"] { margin: 0; }

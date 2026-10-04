@@ -1,0 +1,6 @@
+services:
+  nottwitter:
+    build: .
+    container_name: "nottwitter"
+    ports:
+      - 4521:8000

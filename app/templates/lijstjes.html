@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Lijstjes{% endblock %}
+
+{% block content %}
+{% for user in accounts %}
+<div class="user_account">
+    <span class="account_name">{{ user[0].capitalize() }}</span>
+    {% if user[1] %}
+    <p class="account_lijstje">
+        <a target="_blank" rel="noopener noreferrer" href="{{ user[1] }}">{{ user[1] }}</a>
+    </p>
+    {% else %}
+    <p>Geen lijstje ingesteld.</p>
+    {% endif %}
+
+    {% if user[0] == logged_in_user %}
+    <details class="edit_lijstje">
+        <summary>{% if user[1] %}Bewerk lijstje{% else %}Voeg lijstje toe{% endif %}</summary>
+        <form action="/lijstjes/bewerk" method="POST">
+            <input type="url" name="lijstje_link" class="text_field"
+                   value="{{ user[1] or '' }}" placeholder="https://..." maxlength="500">
+            <input type="submit" value="Opslaan">
+        </form>
+    </details>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

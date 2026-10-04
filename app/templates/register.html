@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block nav %}
+{% endblock %}
+{% block content %}
+<div class="centered">
+  <h2>Register</h2>
+  <p>Hé {{ username }}, dit is de eerste keer dat je inlogd, stel hier je e-mail adres en wachtwoord in.</p>
+  <form action="/auth/register" method="POST" class="register_form">
+    <div class="register_form">
+      <label for="email">E-mail adres</label><br>
+      <input type="email" name="email" id="email" class="text_field" placeholder="name@example.com"  required/>
+    </div>
+    <br>
+    <div class="register_form">
+      <label for="password">Wachtwoord (6+ tekens)</label><br>
+      <input type="password" name="password" id="password" class="text_field" required minlength="6"/>
+    </div>
+    <br>
+    <div class="register_form">
+      <label for="repeat_password">Herhaal Wachtwoord</label><br>
+      <input type="password" name="repeat_password" id="repeat_password" class="text_field" required/>
+    </div>
+    <br>
+    <div class="register_form">
+      <input type="submit" value="Login"/>
+      <input type="button" value="Terug" class="redirect_button" data-redirect-to="/auth/logout"/>
+    </div>
+  </form>
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

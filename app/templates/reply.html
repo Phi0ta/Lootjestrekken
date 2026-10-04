@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Reageer{% endblock %}
+
+{% block content %}
+<div class="centered">
+    <h1>Reageer op je anonieme bericht.</h1>
+    <p>Het bericht dat je kreeg:</p>
+    <blockquote class="reaction_message">{{ original }}</blockquote>
+    <form method="post" action="/reageer/{{ token }}">
+        <textarea name="reply" rows="6" maxlength="5000" required></textarea><br>
+        <button type="submit">Verstuur reactie</button>
+    </form><br>
+    <p class="reaction_warning">
+        Let op: je kan maar 1 keer reageren, zorg ervoor dat je alle info geeft die nodig is.
+    </p>
+</div>
+{% endblock %}

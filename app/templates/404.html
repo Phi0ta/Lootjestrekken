@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}404 Not Found{% endblock %}
+{% block nav %}
+    {% if logged_in_user %}
+        {{ super() }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="centered">
+	<h1>404 Not Found</h1>
+	<p>De URL die je probeert te bereiken bestaat niet, check voor spelfouten of ga naar Home.</p>
+	<input type="button" value="Terug" class="redirect_button" data-redirect-to="/"/>
+</div>
+{% endblock %}

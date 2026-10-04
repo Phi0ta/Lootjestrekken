@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block nav %}
+{% endblock %}
+{% block content %}
+{% if username %}
+<div class="centered">
+  <h2>Login</h2>
+  <form action="/auth/login" method="POST" class="login_form">
+    <div class="login_form">
+      <label for="password">Wachtwoord</label><br>
+      <input type="password" name="password" id="password" class="text_field" required/>
+    </div>
+    <br>
+    <div class="login_form">
+      <input type="submit" value="Login"/>
+      <input type="button" value="Terug" class="redirect_button" data-redirect-to="/auth/logout"/>
+    </div>
+  </form>
+</div>
+{% else %}
+<div class="centered">
+  <h2>Wat is je voornaam?</h2>
+  <form action="/auth/username" method="POST" class="login_form_username">
+    <div class="login_form_username">
+      <label for="username">Voornaam</label><br>
+      <input type="text" name="username" id="username" class="text_field" placeholder="" required />
+    </div>
+    <br>
+    <div class="login_form">
+      <input type="submit" value="Login"/>
+    </div>
+  </form>
+</div>
+{% endif %}
+{% endblock %}
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Berichten{% endblock %}
+
+{% block content %}
+<div class="centered">
+  <h2>Verstuur bericht</h2>
+  <form action="/berichten/verstuur" method="POST" class="login_form">
+    <div class="login_form">
+      <label for="message">Bericht</label><br>
+      <textarea name="message" id="message" class="text_field" required></textarea>
+    </div>
+    <br>
+    <label for="send_to_dropdown">Verstuur naar:</label><br>
+    <select name="send_to_dropdown" id="send_to_dropdown">
+        {% for account in accounts %}
+            {% if account[0].capitalize() == logged_in_user %}
+            {% else %}
+              <option value="{{account[0]}}">{{account[0].capitalize()}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <br><br>
+    <div class="login_form">
+      <input type="submit" value="Verstuur"/>
+      <input type="button" value="Terug" class="redirect_button" data-redirect-to="/"/>
+    </div>
+  </form>
+</div>
+{% endblock %}
