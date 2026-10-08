@@ -411,6 +411,8 @@ async def berichten_page(request: Request):
             request=request, name=f"berichten.html", context={"logged_in_user":user.capitalize(), "accounts":rows}
         )
 
+# code code code code code code code code code code code code code code code code code code code code code code code code code code code code code code code code code code
+
 @app.post("/berichten/verstuur")
 async def verstuur_bericht(request: Request, message: str = Form(), send_to_dropdown: str = Form()):
     user = request.session.get("username")
@@ -419,21 +421,24 @@ async def verstuur_bericht(request: Request, message: str = Form(), send_to_drop
             request=request, name=f"logged_out.html"
         )
     else:
-        name = send_to_dropdown.lower().capitalize()
+        if send_to_dropdown in ['lootje1','lootje2']:
+            return
+        else:
+            name = send_to_dropdown.lower().capitalize()
 
-        sender = get_user(user)
-        recipient_rows = execute_sql("SELECT email FROM users WHERE username = ?;", (send_to_dropdown.strip().lower(),))
-        if not sender or not recipient_rows:
-            return templates.TemplateResponse(
-                request=request, name="error.html", status_code=400, context={"error":"Ontvanger niet gevonden."}
-            )
+            sender = get_user(user)
+            recipient_rows = execute_sql("SELECT email FROM users WHERE username = ?;", (send_to_dropdown.strip().lower(),))
+            if not sender or not recipient_rows:
+                return templates.TemplateResponse(
+                    request=request, name="error.html", status_code=400, context={"error":"Ontvanger niet gevonden."}
+                )
 
-        token = create_message(sender[0], name, recipient_rows[0][0], message)
-        reply_url = f"{settings.BASE_URL}/reageer/{token}"
+            token = create_message(sender[0], name, recipient_rows[0][0], message)
+            reply_url = f"{settings.BASE_URL}/reageer/{token}"
 
-        text_body, html_body = build_email(name, message, reply_url)
-        send_email(f"{recipient_rows[0][0]}", "Anoniem bericht Sinterklaas", text_body, html_body)
-        return templates.TemplateResponse(request=request, name=f"email_sent.html", context={"logged_in_user":user})
+            text_body, html_body = build_email(name, message, reply_url)
+            send_email(f"{recipient_rows[0][0]}", "Anoniem bericht Sinterklaas", text_body, html_body)
+            return templates.TemplateResponse(request=request, name=f"email_sent.html", context={"logged_in_user":user})
 
 @app.get("/reageer/{token}", response_class=HTMLResponse)
 async def reageer_form(request: Request, token: str):
